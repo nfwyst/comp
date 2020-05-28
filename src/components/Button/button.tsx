@@ -1,4 +1,6 @@
-import React from 'react'
+import React, {
+  ReactNode, ButtonHTMLAttributes, AnchorHTMLAttributes, FC
+} from 'react'
 import classNames from 'classnames'
 
 export enum ButtonSize {
@@ -18,16 +20,16 @@ interface BaseButtonProps {
   disabled?: boolean,
   size?: ButtonSize,
   type?: any,
-  children: React.ReactNode,
+  children: ReactNode,
   href?: string
 }
 
-type NativeButtonProps = BaseButtonProps & React.ButtonHTMLAttributes<HTMLElement>
-type AnchorButtonProps = BaseButtonProps & React.AnchorHTMLAttributes<HTMLElement>
+type NativeButtonProps = BaseButtonProps & ButtonHTMLAttributes<HTMLElement>
+type AnchorButtonProps = BaseButtonProps & AnchorHTMLAttributes<HTMLElement>
 
 export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>
 
-const Button: React.FC<ButtonProps> = props => {
+export const Button: FC<ButtonProps> = props => {
   const {
     type,
     disabled,
