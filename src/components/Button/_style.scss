@@ -26,19 +26,18 @@
       pointer-events: none;
     }
   }
-  margin: 3px 5px;
-}
-
-.btn-lg {
-  @include button-size(1.75rem, 6px, 1.5rem, 5px);
-}
-
-.btn-sm {
-  @include button-size(1rem, 3px, 1rem, 5px);
 }
 
 .btn-default {
-  @include button-size(1.5rem, 3px, 1.25rem, 5px);
+  @include button-size(.9rem, 3px, 1rem, 5px);
+}
+
+.btn-lg {
+  @include button-size(1.75rem, 1px, 1.5rem, 5px);
+}
+
+.btn-sm {
+  @include button-size(.5rem, 3px, .5rem, 5px);
 }
 
 .btn-primary {

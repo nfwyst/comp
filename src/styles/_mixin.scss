@@ -8,8 +8,8 @@
   $bg,
   $bd,
   $color,
-  $hbg: lighten($bg, 7.5%), 
-  $hbd: lighten($bd, 7.5%), 
+  $hbg: lighten($bg, 7.5%),
+  $hbd: lighten($bd, 7.5%),
   $hcolor: $color
 ) {
   color: $color;
