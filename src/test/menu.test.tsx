@@ -2,6 +2,9 @@ import React from 'react';
 import { render, RenderResult, fireEvent, cleanup } from '@testing-library/react';
 import Menu, { MenuProps } from '../components/Menu/menu'
 import SubMenu from '../components/Menu/subMenu';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+library.add(fas)
 
 const testProps: MenuProps = {
   defaultIndex: '0',
@@ -81,11 +84,5 @@ describe('测试菜单', () => {
     const wrapper = render(genMenu(testVerProps))
     const menuElement = wrapper.getByTestId('test-menu')
     expect(menuElement).toHaveClass('menu-vertical')
-  })
-  it('应该显示子菜单', () => {
-    expect(wrapper.queryByText('hello sub menu')?.parentElement).toBeVisible()
-    const dropdownElement = wrapper.getByText('下拉菜单')
-    fireEvent.mouseEnter(dropdownElement)
-    expect(wrapper.queryByText('hello sub menu')?.parentElement).toBeVisible()
   })
 })
