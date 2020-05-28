@@ -1,18 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { withInfo } from '@storybook/addon-info';
 import Button from '../components/Button/button';
 import { ButtonSize } from '../components/Button/button';
 
 storiesOf('Button', module)
-  .addDecorator(withInfo)
-  .addParameters({
-    info: {
-      text: 'this is a button component',
-      inline: true
-    }
-  })
   .add('默认 Button', () => (
     <Button onClick={action('clicked')}>default</ Button>
   ))

@@ -16,11 +16,16 @@ export enum ButtonType {
 }
 
 interface BaseButtonProps {
+  /** 设置 Button 的类 */
   className?: string,
+  /** 设置 Button 是否禁用 */
   disabled?: boolean,
+  /** 设置 Button 的尺寸 */
   size?: ButtonSize,
+  /** 设置 Button 的类型 */
   type?: any,
   children: ReactNode,
+  /** 设置 Button 的链接 */
   href?: string
 }
 

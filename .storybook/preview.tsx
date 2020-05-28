@@ -1,6 +1,7 @@
 import '../src/styles/index.scss'
 import React from 'react'
-import { addDecorator } from '@storybook/react'
+import { addDecorator, addParameters } from '@storybook/react'
+import { withInfo } from '@storybook/addon-info';
 
 const styles: React.CSSProperties = {
   textAlign: 'left',
@@ -12,3 +13,10 @@ const CenterDecorator = (storyFn: any) => {
 }
 
 addDecorator(CenterDecorator)
+addDecorator(withInfo)
+addParameters({
+  info: {
+    inline: true,
+    header: false
+  }
+})
