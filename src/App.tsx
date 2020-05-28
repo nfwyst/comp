@@ -4,6 +4,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import Button, { ButtonType, ButtonSize } from './components/Button/button'
 import Menu from './components/Menu/menu';
 import Icon from './components/Icon/icon';
+import Input from './components/Input/input';
 library.add(fas)
 const { Item: MenuItem, SubMenu } = Menu;
 
@@ -43,6 +44,7 @@ const App: React.FC = () => {
         >
           Learn React
         </a>
+        <Input icon="cocktail" disabled prepend={<button>haha</button>} append={<button>fuck</button>} />
       </header>
     </div>
   );
