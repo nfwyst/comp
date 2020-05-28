@@ -1,0 +1,23 @@
+$theme-colors:
+(
+  "primary": blue,
+  "secondary": red,
+  "success": green,
+  "info": lightgreen,
+  "warning": pink,
+  "danger": darkred,
+  "light": white,
+  "dark": black
+);
+
+@each $key, $val in $theme-colors {
+  .icon-#{$key} {
+    color: $val
+  }
+}
+
+.arrow-icon {
+  vertical-align: bottom;
+  margin-left: 3px;
+  transform: all .3s linear;
+}
