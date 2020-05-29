@@ -1,6 +1,7 @@
 import React, { FC, useRef, ChangeEvent, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import Button from '../Button/button';
+import { UploadList } from './uploadList';
 
 export interface UploadProps {
   // 上传文件的地址
@@ -46,7 +47,7 @@ export const Upload: FC<UploadProps> = props => {
     onChange, beforeUpload, defaultFileList, onRemove, ...restProps
   } = props
   const fileInput = useRef<HTMLInputElement>(null)
-  const [fileList, setFileList] = useState<UploadFileStatusProps[]>([])
+  const [fileList, setFileList] = useState<UploadFileStatusProps[]>(defaultFileList || [])
   const handleClick = () => {
     if (fileInput.current) {
       fileInput.current.click()
@@ -131,6 +132,12 @@ export const Upload: FC<UploadProps> = props => {
       onChange && onChange(file)
     })
   }
+  const handleRemove = (file: UploadFileStatusProps) => {
+    setFileList(prevList => {
+      return prevList.filter(item => item.id !== file.id)
+    })
+    onRemove && onRemove(file)
+  }
   return (
     <div className="upload">
       <Button type="primary" {...restProps} onClick={handleClick}>上传文件</Button>
@@ -141,6 +148,7 @@ export const Upload: FC<UploadProps> = props => {
         hidden
         onChange={handleFileChange}
       />
+      <UploadList fileList={fileList} onRemove={handleRemove} />
     </div>
   )
 }

@@ -1,0 +1,42 @@
+@mixin svgColor($class, $color) {
+  .file-name.file-name-#{$class} {
+    color: $color;
+    svg {
+      color: $color;
+    }
+  }
+}
+
+.upload-list {
+  padding: 0;
+  @include svgColor('error', red);
+  @include svgColor('ready', gray);
+  @include svgColor('uploading', gray);
+  @include svgColor('done', green);
+
+  .upload-list-item {
+    padding: 7px 5px;
+    font-size: 1rem;
+    position: relative;
+    transition: all .15s linear;
+    &:hover {
+      background-color: rgba(200, 200, 200, .5);
+      .file-actions {
+        display: inline;
+      }
+      .file-status {
+        display: none;
+      }
+    }
+  }
+
+  .file-status {
+    margin-left: 10px;
+  }
+
+  .file-actions {
+    display: none;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+}
