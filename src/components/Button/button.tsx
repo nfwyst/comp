@@ -25,7 +25,7 @@ interface BaseButtonProps {
   /** 设置 Button 的类型 */
   type?: any,
   children: ReactNode,
-  /** 设置 Button 的链接 */
+  /** 设置 Button */
   href?: string
 }
 

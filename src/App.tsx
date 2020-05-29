@@ -44,7 +44,7 @@ const App: React.FC = () => {
         >
           Learn React
         </a>
-        <Input icon="coffee" />
+        <Input icon="cocktail" disabled prepend={<button>haha</button>} append={<button>fuck</button>} />
       </header>
     </div>
   );

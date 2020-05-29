@@ -19,6 +19,7 @@
     "noEmit": true,
     "jsx": "react",
     "noImplicitThis": false,
+    "downlevelIteration": true
   },
   "include": [
     "src"
