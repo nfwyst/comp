@@ -70,3 +70,29 @@
   background-color: blue;
   color: #fff;
 }
+
+.auto-complete {
+  position: relative;
+  ul {
+    position: absolute;
+    top: 100%;
+    margin: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #fff;
+    z-index: 1;
+    box-shadow: 0 0 2px rgba(200, 200, 200, 1);
+    .suggestion-item {
+      padding: 9px 5px;
+      cursor: pointer;
+      transition: all .15s linear;
+      border-bottom: 1px solid transparent;
+      &:hover {
+        border-bottom: 1px dashed #aaa;
+      }
+    }
+  }
+}

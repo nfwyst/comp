@@ -42,8 +42,7 @@ storiesOf('Input', module)
         onSelect={action('selected')}
         renderOption={(item: DataSourceType<dataType>) => (
           <>
-            <h2>{item.value}</h2>
-            <div>url: {item.url}</div>
+            <span>{item.value}</span>
           </>
         )}
       />
