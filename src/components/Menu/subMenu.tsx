@@ -6,6 +6,7 @@ import { MenuContext } from './menu';
 import { MenuItemProps } from './menuItem';
 import { CSSTransition } from 'react-transition-group';
 import Icon from '../Icon/icon';
+import useClickOutside from '../../hooks/useClickOutside';
 
 export interface SubMenuProps {
   index?: string;
@@ -25,6 +26,8 @@ const SubMenu: React.FC<SubMenuProps> = ({
   const [open, setOpen] = useState(isOpen)
   const context = useContext(MenuContext)
   const handleMouseRef = useRef(null) as any
+  const liRef = useRef<HTMLLIElement>(null)
+  useClickOutside(liRef, () => setOpen(!open))
   const classes = classNames('menu-item submenu-item', className, {
     'is-active': context.index.startsWith(`${index}-`),
     'menu-open': open,
@@ -61,7 +64,7 @@ const SubMenu: React.FC<SubMenuProps> = ({
     onMouseLeave: (e: React.MouseEvent) => { handleMouse(e, false) }
   } : {}
   return (
-    <li key={index} className={classes} {...hoverEvents}>
+    <li key={index} className={classes} {...hoverEvents} ref={liRef}>
       <div className="submenu-title" {...clickEvents}>
         {title}
         <Icon icon={open ? "angle-up" : "angle-down"} className="arrow-icon" />

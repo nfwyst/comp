@@ -44,7 +44,6 @@
     background-color: gray;
     display: flex;
     align-items: center;
-    padding: 3px 5px;
     * {
       height: 100%;
     }
@@ -65,4 +64,9 @@
       cursor: not-allowed;
     }
   }
+}
+
+.item-highlight {
+  background-color: blue;
+  color: #fff;
 }
