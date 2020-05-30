@@ -1,9 +1,12 @@
-import React, { FC, useRef, ChangeEvent, useState } from 'react';
+import React, {
+  FC, useRef, ChangeEvent, useState, InputHTMLAttributes, ReactNode
+} from 'react';
 import axios, { AxiosResponse } from 'axios';
 import Button from '../Button/button';
 import { UploadList } from './uploadList';
+import Dragger from './dragger';
 
-export interface UploadProps {
+export interface UploadProps extends Omit<InputHTMLAttributes<HTMLElement>, 'onChange' | 'onError' | 'onProgress'> {
   // 上传文件的地址
   action: string;
   // 文件上传进度的回调
@@ -20,6 +23,16 @@ export interface UploadProps {
   defaultFileList?: UploadFileStatusProps[];
   // 删除一个文件列表
   onRemove?: (file: UploadFileStatusProps) => void;
+  // 自定义 header
+  headers?: { [key: string]: any };
+  // 自定义 name
+  name?: string;
+  // 自定义额外发送的数据
+  data?: { [key: string]: any };
+  // 是否发送 cookie
+  withCredentials?: boolean;
+  drag?: boolean;
+  children?: ReactNode[]
 }
 
 export type UploadFileStatus = 'ready' | 'uploading' | 'error' | 'done'
@@ -43,7 +56,8 @@ export interface UploadFileStatusProps {
 
 export const Upload: FC<UploadProps> = props => {
   const {
-    action, onProgress, onSuccess, onError,
+    action, onProgress, onSuccess, onError, name, data, headers,
+    withCredentials, children, drag,
     onChange, beforeUpload, defaultFileList, onRemove, ...restProps
   } = props
   const fileInput = useRef<HTMLInputElement>(null)
@@ -89,7 +103,7 @@ export const Upload: FC<UploadProps> = props => {
       raw: file,
       ...options
     }
-    setFileList([...fileList, _file])
+    setFileList(prevList => [...prevList, _file])
     return _file
   }
   const updateFileList = (updateFile: UploadFileStatusProps, updateObj: Partial<UploadFileStatusProps>) => {
@@ -108,11 +122,18 @@ export const Upload: FC<UploadProps> = props => {
       status: 'ready', percent: 0, id: `${Date.now()}upload-file`
     })
     const formData = new FormData()
-    formData.append(file.name, file)
+    formData.append(name || file.name, file)
+    if (data) {
+      for (let [key, value] of Object.entries(data)) {
+        formData.append(key, value)
+      }
+    }
     axios.post(action, formData, {
       headers: {
+        ...headers,
         'Content-Type': 'multipart/form-data'
       },
+      withCredentials,
       onUploadProgress: (e) => {
         const percentage = Math.round((e.loaded * 100) / e.total) || 0
         if (percentage < 100) {
@@ -138,15 +159,24 @@ export const Upload: FC<UploadProps> = props => {
     })
     onRemove && onRemove(file)
   }
+  const renderTogger = () => {
+    if (drag) {
+      return <Dragger onFile={uploadFiles}>{children}</Dragger>
+    } else if (children && children.length) {
+      return children
+    }
+    return <Button type="primary">上传文件</Button>
+  }
   return (
-    <div className="upload">
-      <Button type="primary" {...restProps} onClick={handleClick}>上传文件</Button>
+    <div className="upload" onClick={handleClick}>
+      {renderTogger()}
       <input
         type="file"
         ref={fileInput}
         className="upload-input"
         hidden
         onChange={handleFileChange}
+        {...restProps}
       />
       <UploadList fileList={fileList} onRemove={handleRemove} />
     </div>

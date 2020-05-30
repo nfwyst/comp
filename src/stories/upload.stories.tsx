@@ -1,8 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import Upload from '../components/Upload/upload';
-import { action } from '@storybook/addon-actions';
 import { UploadFileStatusProps } from '../components/Upload/upload';
+import Icon from '../components/Icon/icon';
 
 const defaultFileList: UploadFileStatusProps[] = [
   { id: '1', size: 1, name: 'hello.md', status: 'uploading', percent: 20 },
@@ -14,13 +14,13 @@ storiesOf('Upload', module)
   .add('默认 Upload', () => (
     <Upload
       action="https://jsonplaceholder.typicode.com/posts/"
-      onProgress={action('progress')}
-      onSuccess={action('success')}
-      onError={(e, file) => console.log(e, file)}
-      beforeUpload={file => {
-        const newFile = new File([file], 'file', { type: file.type })
-        return Promise.resolve(newFile)
-      }}
-      defaultFileList={defaultFileList}
-    />
+      onChange={(file) => console.log('onchange ', file)}
+      onRemove={(file) => console.log('onremove', file)}
+      name="file"
+      drag
+    >
+      <Icon icon="upload" size="5x" theme="secondary" />
+      <br />
+      <p>拖拽文件上传</p>
+    </Upload>
   ))
