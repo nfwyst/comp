@@ -28,5 +28,5 @@ const data: TreeData = {
 
 storiesOf('Tree', module)
   .add('基础树形结构', () => (
-    <Tree data={data} />
+    <Tree data={data} onChecked={k => console.log(k)} />
   ))

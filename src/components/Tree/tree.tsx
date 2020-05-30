@@ -13,6 +13,7 @@ export interface TreeData {
 
 export interface TreeProps {
   data: TreeData;
+  onChecked?: (keys: string[]) => void;
 }
 
 export interface IKeyNodeMap {
@@ -20,8 +21,9 @@ export interface IKeyNodeMap {
 }
 
 export const Tree: FC<TreeProps> = props => {
-  const { data } = props
+  const { data, onChecked } = props
   const [treeData, setTreeData] = useState(data)
+  const [checkedList, setCheckedList] = useState<string[]>([])
   const keyNodeMap = useRef<IKeyNodeMap>({})
 
   const buildKeyMap = useCallback((data: TreeData, parent?: TreeData) => {
@@ -33,9 +35,28 @@ export const Tree: FC<TreeProps> = props => {
       })
     }
   }, [])
+  const buildCheckedList = useCallback((data: TreeData) => {
+    const results: string[] = []
+    const walk = (d: TreeData) => {
+      if (d && d.checked) results.push(d.key)
+      if (d && d.children) d.children.forEach(walk)
+    }
+    if (data && data.checked) {
+      results.push(data.key)
+    }
+    if (data && data.children) {
+      data.children.forEach(walk)
+    }
+
+    setCheckedList(prevList => results)
+  }, [])
   useEffect(() => {
     buildKeyMap(treeData)
-  }, [buildKeyMap, treeData])
+    buildCheckedList(treeData)
+  }, [buildCheckedList, buildKeyMap, treeData])
+  useEffect(() => {
+    onChecked && onChecked(checkedList)
+  }, [checkedList, onChecked])
 
   const handleCollapse = useCallback((key: string) => {
     let data = keyNodeMap.current[key]
@@ -70,6 +91,7 @@ export const Tree: FC<TreeProps> = props => {
   const onCheck = useCallback((key: string) => {
     let data = keyNodeMap.current[key]
     if (data) {
+
       data.checked = !data.checked
       if (data.checked) {
         checkChildren(data.children || [], true)
