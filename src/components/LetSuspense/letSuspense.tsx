@@ -5,7 +5,7 @@ export interface ILetSuspenseProps {
   condition: boolean;
   children: React.ReactNode;
   checkOnce?: boolean;
-  placeholder?: React.Component;
+  placeholder?: any;
   initialDelay?: number;
   multiplier: number;
   retry?: Function;
@@ -29,12 +29,14 @@ export const LetSuspense: FC<ILetSuspenseProps> = props => {
     checkOnce,
     initialDelay,
     multiplier,
-    placeholder: Placeholder,
     retry,
     timeout,
     className,
     style,
   } = props
+
+  let { placeholder: Placeholder } = props
+  if (!Placeholder) Placeholder = DefaultPlaceholder
 
   const classes = classNames('let-suspense', className)
 
@@ -45,9 +47,10 @@ export const LetSuspense: FC<ILetSuspenseProps> = props => {
 
     const delay = initialDelay || 0
     let delayTimeout: NodeJS.Timeout
+    let retryTimeout: NodeJS.Timeout
 
     if (timeout) {
-      setTimeout(() => {
+      retryTimeout = setTimeout(() => {
         if (!isChecked) {
           retry && retry()
         }
@@ -59,17 +62,20 @@ export const LetSuspense: FC<ILetSuspenseProps> = props => {
         delayTimeout = setTimeout(() => {
           setComponents([children])
         }, delay)
+      } else {
+        setComponents([children])
       }
       setIsChecked(true)
     } else {
       const tempComponents = []
       for (let i = 0; i < multiplier; i++) {
-        tempComponents.push(Placeholder ? Placeholder : DefaultPlaceholder)
+        tempComponents.push(<Placeholder key={i} />)
       }
       setComponents(tempComponents)
     }
     return () => {
       clearTimeout(delayTimeout)
+      clearTimeout(retryTimeout)
     }
   }, [condition, children, checkOnce, isChecked, initialDelay, multiplier, Placeholder, timeout, retry])
 
